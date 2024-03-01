@@ -163,3 +163,9 @@ people love; and riveting examples from the iPhone to Twitter, Pinterest and the
 ",
   cover_url: 'https://m.media-amazon.com/images/I/81L8JOVXJtL._SL1500_.jpg'
 )
+
+User.find_or_create_by!(email: 'arturleite@test.com') do |user|
+  user.password = '123456'
+  user.first_name = 'Artur'
+  user.last_name = 'Leite'
+end

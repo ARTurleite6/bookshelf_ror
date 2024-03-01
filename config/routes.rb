@@ -2,7 +2,7 @@
 
 Rails.application.routes.draw do
   devise_for :users
-  get '/', to: 'books#index', as: 'books'
+  resources 'books', only: %i[index new create show edit update]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

@@ -4,14 +4,34 @@
       <% @books.each do |book| %>
         <tr class="<%= cycle('bg-violet-50', 'bg-white') %> shadow">
           <td class="px-2 py-3">
-            <%= image_tag(book.cover_url, class: 'w-40') %>
+            <%= image_tag(book.cover_url, class: 'w-60') %>
           </td>
           <td>
-            <h1 class="text-xl font-bold mb-3 hover:cursor-pointer hover:underline"><%= book.title %></h1>
+            <%= link_to (book_path(book)) do %>
+              <h1 class="text-xl font-bold mb-3 hover:cursor-pointer hover:underline"><%= book.title %></h1>
+            <% end %>
             <p class="max-w-xl"><%= truncate(book.description, length: 200) %></p>
+          </td>
+          <td>
+            <ul>
+              <li>
+                <%= link_to('Edit', edit_book_path(book),
+                  class: 'hover:underline') %>
+              </li>
+            </ul>
           </td>
         </tr>
       <% end %>
     </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <div class="my-8">
+            <%= link_to('New book', new_book_path,
+                        class: 'inline rounded-lg py-3 px-5 bg-green-600 text-white block font-medium') %>
+          </div>
+        </td>
+      </tr>
+    </tfoot>
   </table>
 </div>

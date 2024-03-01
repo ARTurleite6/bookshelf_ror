@@ -6,15 +6,40 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body>
-    <main class="container mx-auto mt-28 px-5 flex">
-      <p class="notice"><%= notice %></p>
-      <p class="alert"><%= alert %></p>
+    <nav>
+      <%= render 'layouts/navbar' %>
+    </nav>
+
+    <main class="container mx-auto mt-28 px-5 flex flex-col items-center">
+      <% if user_signed_in? %>
+        <% flash.each do |type, content| %>
+          <div>
+            <% if type == 'notice' %>
+              <div class="flex bg-green-50 w-fit p-3 mb-8 rounded-lg shadow fixed bottom-0 right-8 cursor-pointer">
+                <%= image_tag('check-circle.svg', class: 'mr-1') %>
+                <p><%= content %></p>
+              </div>
+            <% elsif type == 'alert' %>
+              <div class="fixed bottom-0 right-8">
+                <% if content.is_a?(String) %>
+                  <p><%= content %></p>
+                <% else %>
+                  <% content.each do |message| %>
+                    <div class="flex bg-red-50 w-64 p-3 mb-8 rounded-lg shadow cursor-pointer">
+                      <%= image_tag('x-circle.svg', class: 'mr-1') %>
+                      <p><%= message %></p>
+                    </div>
+                  <% end %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
       <%= yield %>
     </main>
   </body>
