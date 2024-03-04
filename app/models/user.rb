@@ -34,4 +34,8 @@ class User < ApplicationRecord
   def active_reading?
     active_reservation.present?
   end
+
+  def full_name
+    "#{first_name} #{last_name}"
+  end
 end

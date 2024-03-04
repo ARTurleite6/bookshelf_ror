@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module BookHelper
   def formatted_genres
     Book.genres.map { |key, _value| key }

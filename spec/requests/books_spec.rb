@@ -162,6 +162,33 @@ RSpec.describe 'Books', type: %i[request system] do
       end
     end
   end
+
+  describe 'POST #reserve' do
+    let(:book) { create(:book) }
+
+    context 'when user is logged in' do
+      include_context 'with logged in user'
+
+      it 'should create reservation' do
+        aggregate_failures do
+          expect { post reserve_book_path(book.id) }.to change(Reservation, :count).by(1)
+          expect(response).to redirect_to(books_path)
+          expect(response).to have_http_status(:found)
+          expect(flash[:notice]).to eq("#{book.title} was successfully reserved!")
+        end
+      end
+    end
+
+    context 'when user is logged out' do
+      it 'is redirected to sign in' do
+        aggregate_failures do
+          expect { post reserve_book_path(book.id) }.not_to change(Reservation, :count)
+          expect(response).to have_http_status(:found)
+          expect(response).to redirect_to(new_user_session_path)
+        end
+      end
+    end
+  end
 end
 
 # rubocop:enable Metrics/BlockLength

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class UpdateBook
   Result = Struct.new(:success?, :book, :errors, keyword_init: true)
 
