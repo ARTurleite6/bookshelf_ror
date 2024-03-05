@@ -169,3 +169,16 @@ User.find_or_create_by!(email: 'arturleite@test.com') do |user|
   user.first_name = 'Artur'
   user.last_name = 'Leite'
 end
+
+User.find_or_create_by!(email: 'joao@test.com') do |user|
+  user.password = '123456'
+  user.first_name = 'Joao'
+  user.last_name = 'Brochado'
+end
+
+User.find_or_create_by!(email: 'admin@test.com') do |user|
+  user.password = '123456'
+  user.first_name = 'Admin'
+  user.last_name = 'Bookshelf'
+  user.is_admin = true
+end

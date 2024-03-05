@@ -14,7 +14,7 @@ RSpec.describe ReserveBook do
         aggregate_failures do
           expect { reserve_book }.to change(Reservation, :count).by(1)
           expect(reserve_book.success?).to be_truthy
-          expect(SendNewReservationEmailJob).to have_enqueued_sidekiq_job(user.id, book.id, admin.id)
+          expect(SendNewReservationEmailJob).to have_enqueued_sidekiq_job(admin.id, user.id, book.id)
         end
       end
     end

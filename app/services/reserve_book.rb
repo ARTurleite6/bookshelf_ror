@@ -29,7 +29,7 @@ class ReserveBook
   # @param reservation [Reservation]
   def send_reservation_email(reservation)
     User.admin_users.each do |admin|
-      SendNewReservationEmailJob.perform_async(reservation.user_id, reservation.book_id, admin.id)
+      SendNewReservationEmailJob.perform_async(admin.id, reservation.user_id, reservation.book_id)
     end
   end
 end

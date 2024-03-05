@@ -6,6 +6,6 @@ module BookHelper
   end
 
   def format_genre(genre)
-    genre.split('_').map(&:capitalize).join(' ')
+    genre.titleize
   end
 end
