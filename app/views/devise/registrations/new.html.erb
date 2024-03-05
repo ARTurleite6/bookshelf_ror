@@ -1,0 +1,39 @@
+<h1 class="text-center font-bold text-5xl pb-8">Sign up</h1>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="my-5 w-full">
+    <%= f.label :email %><br />
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'block shadow rounded-md w-full' %>
+  </div>
+
+  <div class="my-5 w-full">
+    <%= f.label :password %>
+    <% if @minimum_password_length %>
+    <em>(<%= @minimum_password_length %> characters minimum)</em>
+    <% end %><br />
+    <%= f.password_field :password, autocomplete: "new-password", class: 'block shadow rounded-md w-full' %>
+  </div>
+
+  <div class="my-5 w-full">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'block shadow rounded-md w-full' %>
+  </div>
+
+  <div class="my-5 w-full">
+    <%= f.label :first_name %>
+    <%= f.text_field :first_name, class: 'block shadow rounded-md w-full' %>
+  </div>
+
+  <div class="my-5 w-full">
+    <%= f.label :last_name %>
+    <%= f.text_field :last_name, class: 'block shadow rounded-md w-full' %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit "Sign up", class: 'bg-green-600 w-full text-white rounded-lg px-5 py-2 font-medium cursor-pointer' %>
+  </div>
+<% end %>
+
+<%= render "devise/shared/links" %>

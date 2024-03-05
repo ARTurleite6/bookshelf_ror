@@ -1,6 +1,13 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  default from: 'from@example.com'
+  before_action :set_recipient
+  default from: 'bookshelf@deemaze.com'
   layout 'mailer'
+
+  private
+
+  def set_recipient
+    @recipient = params[:recipient]
+  end
 end

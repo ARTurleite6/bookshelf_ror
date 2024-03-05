@@ -1,0 +1,21 @@
+<%= form_with(model: @book) do |form| %>
+  <div class="my-5 w-full">
+    <%= form.label :title %>
+    <%= form.text_field :title, class: 'block shadow rounded-md w-full' %>
+  </div>
+  <div class="my-5 w-full">
+    <%= form.label :genre %>
+    <%= form.select :genre, formatted_genres, {}, { class: 'block shadow rounded-md w-full' } %>
+  </div>
+  <div class="my-5 w-full">
+    <%= form.label :description %>
+    <%= form.text_area :description, rows: 10, class: 'block shadow w-full' %>
+  </div>
+  <div class="my-5 w-full">
+    <%= form.label :cover_url %>
+    <%= form.text_field :cover_url, class: 'block shadow rounded-md w-full' %>
+  </div>
+  <div>
+    <%= form.submit class: 'bg-green-600 w-full text-white rounded-lg px-5 py-2 font-medium cursor-pointer' %>
+  </div>
+<% end %>

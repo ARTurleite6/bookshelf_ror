@@ -67,15 +67,21 @@ group :development do
 
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'annotate', '~> 3.2', group: :development
+  gem 'annotate', '~> 3.2'
+  gem 'letter_opener'
+  gem 'solargraph'
+  gem 'solargraph-rails'
 end
 
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'rspec-rails'
+  gem 'rspec-sidekiq'
   gem 'selenium-webdriver'
   gem 'shoulda-matchers', '~> 6.0'
 end
 
-gem "devise", "~> 4.9"
+gem 'devise', '~> 4.9'
+
+gem 'sidekiq', '~> 7.2'
