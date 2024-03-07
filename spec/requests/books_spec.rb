@@ -4,7 +4,7 @@ require 'rails_helper'
 
 # rubocop:disable Metrics/BlockLength
 RSpec.describe 'Books', type: %i[request system] do
-  describe 'GET /index' do
+  describe 'GET #index' do
     context 'when logged in' do
       include_context 'with logged in user'
 

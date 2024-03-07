@@ -8,6 +8,7 @@ class ApplicationMailer < ActionMailer::Base
   private
 
   def set_recipient
+    #  @type [User]
     @recipient = params[:recipient]
   end
 end

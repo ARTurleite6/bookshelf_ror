@@ -1,10 +1,22 @@
 <div class="mx-auto">
-  <h1 class="font-bold text-4xl">My reservations</h1>
+  <h1 class="font-bold text-5xl mb-8">My reservations</h1>
   <% @reservations.each do |reservation| %>
-    <div><%= reservation.book.title %></div>
-    <div><%= reservation.created_at.to_date %></div>
-    <% if reservation.returned? %>
-      <p>Returned on <%= reservation.returned_on %></p>
-    <% end %>
+    <div class="grid grid-cols-3 <%= cycle('bg-violet-50', 'bg-white') %> p-3 shadow ">
+      <div class="flex justify-start items-center">
+      <%= link_to book_path(reservation.book) do %>
+        <h1 class="hover:underline"><%= reservation.book.title %></h1>
+      <% end %>
+      </div>
+      <div class="flex items-center justify-center">
+        <%= image_tag('arrow-down.svg', class: 'w-4 pr-1') %>
+        <span>Reserved on <%= reservation.created_at.to_date %> </span>
+      </div>
+      <% if reservation.returned? %>
+        <div class="flex items-center justify-center">
+          <%= image_tag('arrow-up.svg', class: 'w-4 pr-1') %>
+          <span>Returned on <%= reservation.returned_on %> </span>
+        </div>
+      <% end %>
+    </div>
   <% end %>
 </div>
