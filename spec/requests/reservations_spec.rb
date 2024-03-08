@@ -32,4 +32,43 @@ RSpec.describe 'Reservations', type: :request do
       end
     end
   end
+
+  describe 'PATCH #update' do
+    context 'when user is logged in' do
+      include_context 'with logged in user'
+
+      context 'when reservation is active' do
+        let(:reservation) { create(:reservation, user:) }
+
+        it 'finishes reservation' do
+          patch reservation_path(reservation)
+
+          aggregate_failures do
+            expect(reservation.reload.returned_on).not_to eq(nil)
+            expect(response).to have_http_status(:found)
+          end
+        end
+      end
+
+      context 'when reservation is inactive' do
+        let(:reservation) { create(:reservation, user:, returned_on: Date.tomorrow) }
+
+        it 'raises an exception' do
+          patch reservation_path(reservation)
+          aggregate_failures do
+            expect(response).to have_http_status(:not_found)
+          end
+        end
+      end
+    end
+
+    context 'when user is logged out' do
+      let(:reservation) { create(:reservation) }
+      it 'redirects to log in' do
+        patch reservation_path(reservation)
+        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to have_http_status(:found)
+      end
+    end
+  end
 end

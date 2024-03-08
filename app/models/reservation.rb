@@ -49,6 +49,6 @@ class Reservation < ApplicationRecord
   end
 
   def returned_on_cannot_be_revised
-    errors.add(:returned_on, 'This book already had been returned') if returned_on_previously_changed?
+    errors.add(:returned_on, 'cannot be revised') if returned_on_previously_changed?
   end
 end

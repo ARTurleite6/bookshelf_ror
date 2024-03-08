@@ -5,7 +5,24 @@ class ReservationsController < ApplicationController
 
   def index; end
 
-  def update; end
+  def update
+    result = ReturnBook.new(@reservation).perform
+
+    if result.success?
+      respond_to do |format|
+        format.html do
+          render partial: 'reservations/row', locals: { reservation: @reservation }
+        end
+        format.json do
+          render(json: { reservation: result.reservation }, status: :ok)
+        end
+      end
+    else
+      respond_to do |format|
+        format.json { render(json: {  errors: result.errors }, status: :unprocessable_entity) }
+      end
+    end
+  end
 
   private
 
@@ -14,6 +31,8 @@ class ReservationsController < ApplicationController
   end
 
   def set_reservation
-    @reservation = Reservation.find(params[:id])
+    @reservation = Reservation.find_by!(user: current_user, returned_on: nil)
+  rescue ActiveRecord::RecordNotFound
+    head :not_found
   end
 end
