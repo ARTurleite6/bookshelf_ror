@@ -1,13 +1,19 @@
 <div class="grid grid-cols-4 gap-10">
+  <div class="col-span-1">
+    <% if current_user.active_reading? %>
+      <%= turbo_frame_tag "active_reservation_badge", src: reservation_path(current_user.active_reservation)%>
+    <% end %>
+    <%= turbo_frame_tag "company_reservations", src: company_reservations_path %>
+  </div>
   <table class="col-span-3">
     <tbody>
       <% @books.each do |book| %>
-        <tr class="<%= cycle('bg-violet-50', 'bg-white') %> shadow">
+        <tr id="<%= dom_id(book) %>_row" class="<%= cycle('bg-violet-50', 'bg-white') %> shadow">
           <td class="px-2 py-3">
             <%= image_tag(book.cover_url, class: 'w-60') %>
           </td>
           <td>
-            <%= link_to (book_path(book)) do %>
+            <%= link_to book_path(book) do %>
               <h1 class="text-xl font-bold mb-3 hover:cursor-pointer hover:underline"><%= book.title %></h1>
             <% end %>
             <p class="max-w-xl"><%= truncate(book.description, length: 200) %></p>
@@ -17,6 +23,12 @@
               <li>
                 <%= link_to('Edit', edit_book_path(book),
                   class: 'hover:underline') %>
+              </li>
+              <li>
+                <%= button_to('Destroy', book_path(book),
+                            method: :delete,
+                            class: 'hover:underline'
+                            ) %>
               </li>
             </ul>
           </td>

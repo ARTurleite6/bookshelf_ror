@@ -1,5 +1,5 @@
   <div class="flex justify-between px-7 py-5">
-    <%= link_to root_path do %>
+    <%= link_to books_path, 'data-turbo': false do %>
       <h1 class="font-bold">Bookshelf</h1>
     <% end %>
     <% if user_signed_in? %>
