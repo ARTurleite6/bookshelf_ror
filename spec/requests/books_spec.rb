@@ -55,7 +55,7 @@ RSpec.describe 'Books', type: %i[request system] do
           aggregate_failures do
             expect { post books_path(params) }.to change(Book, :count).by(1)
             expect(response).to have_http_status(:found)
-              .and(redirect_to(books_path))
+                                  .and(redirect_to(books_path))
           end
         end
       end
@@ -94,7 +94,7 @@ RSpec.describe 'Books', type: %i[request system] do
         aggregate_failures do
           expect { post books_path({}) }.not_to change(Book, :count)
           expect(response).to redirect_to(new_user_session_path)
-            .and(have_http_status(:found))
+                                .and(have_http_status(:found))
         end
       end
     end
@@ -118,7 +118,7 @@ RSpec.describe 'Books', type: %i[request system] do
         it 'does update the book' do
           expect { patch book_path(book, params) }.to change(Book, :count).by(0).and(change { book.reload.title })
           expect(response).to have_http_status(:found)
-            .and redirect_to(books_path)
+                                .and redirect_to(books_path)
           expect(flash[:notice]).to eq("#{params[:book][:title]} was successfully updated.")
         end
       end
@@ -188,6 +188,44 @@ RSpec.describe 'Books', type: %i[request system] do
         end
       end
     end
+  end
+
+  describe 'DELETE #destroy' do
+    let!(:book) { create(:book) }
+
+    context 'when user is logged in' do
+      include_context 'with logged in user'
+
+      context 'when book exists' do
+        it 'destroys the book' do
+          aggregate_failures do
+            expect { delete book_path(book), as: :json }.to change(Book, :count).by(-1)
+            expect(response).to have_http_status(:ok)
+          end
+        end
+      end
+
+      context 'when book does not exist' do
+        it 'raises error' do
+          delete book_path(Faker::Number.number(digits: 10)), as: :json
+
+          aggregate_failures do
+            expect(response).to have_http_status(:not_found)
+          end
+        end
+      end
+    end
+
+    context 'when user is logged out' do
+      it 'is redirected to sign in' do
+        aggregate_failures do
+          expect { delete book_path(book), as: :json }.not_to change(Book, :count)
+          expect(response).to have_http_status(:unauthorized)
+          expect(JSON.parse(response.body)['error']).to eq('You need to sign in or sign up before continuing.')
+        end
+      end
+    end
+
   end
 end
 
