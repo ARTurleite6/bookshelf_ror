@@ -8,6 +8,10 @@ class AdminMailer < ApplicationMailer
     mail(subject: "New reservation on #{@book.title}", to: @recipient.email)
   end
 
+  def reservation_ending
+    mail(subject: "Ended reservation on #{@book.title}", to: @recipient.email)
+  end
+
   private
 
   def set_reserver

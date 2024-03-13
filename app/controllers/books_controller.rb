@@ -3,13 +3,15 @@
 class BooksController < ApplicationController
   include BookHelper
   before_action :authenticate_user!
-  before_action :set_book, only: %i[show edit update reserve]
+  before_action :set_book, only: %i[show edit update reserve destroy]
 
   def index
     @books = Book.all.order(created_at: :asc)
   end
 
-  def new; end
+  def new
+    @book = Book.new
+  end
 
   def reserve
     result = ReserveBook.new(@book, current_user.id).perform
@@ -75,6 +77,21 @@ class BooksController < ApplicationController
           render :edit, status: :unprocessable_entity
         end
         format.json { render json: { errors: result.errors }, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  def destroy
+    result = DestroyBook.new(@book).perform
+
+    if result.success?
+      respond_to do |format|
+        format.turbo_stream
+        format.json { render json: { head: :ok } }
+      end
+    else
+      respond_to do |format|
+        format.json { render json: { head: :unprocessable_entity } }
       end
     end
   end

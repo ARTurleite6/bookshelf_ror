@@ -1,10 +1,6 @@
 <div class="mx-auto">
-  <h1 class="font-bold text-4xl">My reservations</h1>
+  <h1 class="font-bold text-5xl mb-8">My reservations</h1>
   <% @reservations.each do |reservation| %>
-    <div><%= reservation.book.title %></div>
-    <div><%= reservation.created_at.to_date %></div>
-    <% if reservation.returned? %>
-      <p>Returned on <%= reservation.returned_on %></p>
-    <% end %>
+    <%= render partial: 'reservations/row', locals: { reservation: reservation } %>
   <% end %>
 </div>
